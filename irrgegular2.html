@@ -4,49 +4,25 @@
 <meta charset="UTF-8">
 <meta name="author" content="David">
 <title>空對空－動詞三態測驗</title>
-<style>
-.myButton {
-	background-color:#44c767;
-	-moz-border-radius:5px;
-	-webkit-border-radius:5px;
-	border-radius:5px;
-	border:1px solid #18ab29;
-	display:inline-block;
-	cursor:pointer;
-	color:#ffffff;
-	font-family:Arial;
-	font-size:18px;
-	padding:13px 40px;
-	text-decoration:none;
-	text-shadow:0px 1px 0px #2f6627;
-}
-.myButton:hover {
-	background-color:#5cbf2a;
-}
-.myButton:active {
-	position:relative;
-	top:1px;
-}
-</style>
-<script src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
+<script src="//code.jquery.com/jquery-2.1.4.min.js"></script>
 </head>
 	<body>
 	<div style="font-size: 2.0em;">
 	空對空<BR>
-	切換時間<input type="text" value="3" id="gap" size="5">秒，請不要低於1秒<BR>
-	<label><input type="checkbox" value="1" id="mix">三態混合</label><BR>
-	<label><input type="checkbox" value="1" id="showans">顯示答案</label>(切換速度 X 0.8)<BR>
-	<a href="javascript:start()" class="myButton" id='_start'>自動</a>
-	<a href="javascript:stop()" class="myButton" id='_stop'>暫停</a>
-	<a href="javascript:game()" class="myButton" id='_manual'>下一題</a>
-	<BR><BR>
 	<audio id="player" controls="controls">
 		<source id="mp3_src" src="" type="audio/mp3" />
     您的瀏覽器不支援MP3播放，請更換瀏覽器
   </audio>
   <BR><BR>
 	<span style="background-color: #D7C55A; width:600px;display: inline-block;">題目：請聽音檔</span><BR><BR>
-	<span style="background-color: #D7C55A; width:600px;display: inline-block;">答案：<span id="ans" style="background-color: #D7C55A;width:500px;"></span></span><BR>
+	<span style="background-color: #D7C55A; width:600px;display: inline-block;">答案：<span id="ans" style="background-color: #D7C55A;width:500px;"></span></span><BR><BR>
+    切換時間<input type="text" value="3" id="gap" size="5">秒，請不要低於1秒<BR>
+	<label><input type="checkbox" value="1" id="mix">三態混合</label><BR>
+	<label><input type="checkbox" value="1" id="showans">顯示答案</label>(切換速度 X 0.8)<BR>
+	<a href="javascript:start()" class="myButton" id='_start'>自動</a>
+	<a href="javascript:stop()" class="myButton" id='_stop'>暫停</a>
+	<a href="javascript:game()" class="myButton" id='_manual'>下一題</a>
+	<BR>
 	</div>
 
 	</body>
@@ -495,7 +471,7 @@ var game = function() {
 	}
 
 	var audio = $("#player");
-  $('#mp3_src').attr("src","mp3/"+qus+".mp3");
+  $('#mp3_src').attr("src","//raw.githubusercontent.com/jinweilin/irregular/master/mp3/"+qus+".mp3");
   /****************/
   audio[0].pause();
   audio[0].load();//suspends and restores all audio element
