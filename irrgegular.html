@@ -1,0 +1,490 @@
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="author" content="David">
+<title>地對空－動詞三態測驗</title>
+<style>
+.myButton {
+	background-color:#44c767;
+	-moz-border-radius:5px;
+	-webkit-border-radius:5px;
+	border-radius:5px;
+	border:1px solid #18ab29;
+	display:inline-block;
+	cursor:pointer;
+	color:#ffffff;
+	font-family:Arial;
+	font-size:18px;
+	padding:13px 40px;
+	text-decoration:none;
+	text-shadow:0px 1px 0px #2f6627;
+}
+.myButton:hover {
+	background-color:#5cbf2a;
+}
+.myButton:active {
+	position:relative;
+	top:1px;
+}
+</style>
+<script src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
+</head>
+	<body>
+	<div style="font-size: 2.0em;">
+	地對空<BR>
+	切換時間<input type="text" value="3" id="gap" size="5">秒<BR>
+	<label><input type="checkbox" value="1" id="mix">三態混合</label><BR>
+	<label><input type="checkbox" value="1" id="showans">顯示答案</label>(切換速度 X 0.8)<BR>
+	<a href="javascript:start()" class="myButton" id='_start'>自動</a>
+	<a href="javascript:stop()" class="myButton" id='_stop'>暫停</a>
+	<a href="javascript:game()" class="myButton" id='_manual'>下一題</a>
+	<BR><BR>
+	<span style="background-color: #D7C55A; width:600px;display: inline-block;">題目：<span id="qus"></span></span><BR><BR>
+	<span style="background-color: #D7C55A; width:600px;display: inline-block;">答案：<span id="ans" style="background-color: #D7C55A;width:500px;"></span></span><BR>
+	</div>
+	</body>
+	</html>
+	<script>
+var irragular1 = ['be',
+'become',
+'begin',
+'bend',
+'bite',
+'blow',
+'break',
+'bring',
+'broadcast',
+'build',
+'buy',
+'catch',
+'choose',
+'come',
+'cost',
+'cut',
+'dig',
+'do',
+'draw',
+'drink',
+'drive',
+'eat',
+'fall',
+'feed',
+'feel',
+'fight',
+'find',
+'fit',
+'fly',
+'forget',
+'forgive',
+'freeze',
+'get',
+'give',
+'go',
+'grow',
+'hang',
+'have',
+'hear',
+'hide',
+'hit',
+'hold',
+'hurt',
+'keep',
+'know',
+'lay',
+'lead',
+'leave',
+'lend',
+'let',
+'lie',
+'light',
+'lose',
+'make',
+'mean',
+'meet',
+'pay',
+'put',
+'quit',
+'read',
+'ride',
+'ring',
+'rise',
+'run',
+'say',
+'see',
+'sell',
+'send',
+'set',
+'shake',
+'shoot',
+'shut',
+'sing',
+'sit',
+'sleep',
+'slide',
+'speak',
+'spend',
+'spread',
+'stand',
+'steal',
+'stick',
+'strike',
+'swear',
+'sweep',
+'swim',
+'take',
+'teach',
+'tear',
+'tell',
+'throw',
+'think',
+'understand',
+'upset',
+'wake',
+'wear',
+'win',
+'withdraw',
+'write'];
+var irragular2 = ['was;were',
+'became',
+'began',
+'bent',
+'bit',
+'blew',
+'broke',
+'brought',
+'broadcast',
+'built',
+'bought',
+'caught',
+'chose',
+'came',
+'cost',
+'cut',
+'dug',
+'did',
+'drew',
+'drank',
+'drove',
+'ate',
+'fell',
+'fed',
+'felt',
+'fought',
+'found',
+'fit',
+'flew',
+'forgot',
+'forgave',
+'froze',
+'got',
+'gave',
+'went',
+'grew',
+'hung',
+'had',
+'heard',
+'hid',
+'hit',
+'held',
+'hurt',
+'kept',
+'knew',
+'laid',
+'led',
+'left',
+'lent',
+'let',
+'lay',
+'lit',
+'lost',
+'made',
+'meant',
+'met',
+'paid',
+'put',
+'quit',
+'read',
+'rode',
+'rang',
+'rose',
+'ran',
+'said',
+'saw',
+'sold',
+'sent',
+'set',
+'shook',
+'shot',
+'shut',
+'sang',
+'sat',
+'slept',
+'slid',
+'spoke',
+'spent',
+'spread',
+'stood',
+'stole',
+'stuck',
+'struck',
+'swore',
+'swept',
+'swam',
+'took',
+'taught',
+'tore',
+'told',
+'threw',
+'thought',
+'understood',
+'upset',
+'woke',
+'wore',
+'won',
+'withdrew',
+'wrote'];
+var irragular3 = ['been',
+'become',
+'begun',
+'bent',
+'bitten',
+'blown',
+'broken',
+'brought',
+'broadcast',
+'built',
+'bought',
+'caught',
+'chosen',
+'come',
+'cost',
+'cut',
+'dug',
+'done',
+'drawn',
+'drunk',
+'driven',
+'eaten',
+'fallen',
+'fed',
+'felt',
+'fought',
+'found',
+'fit',
+'flown',
+'forgotten',
+'forgiven',
+'frozen',
+'gotten(美);got(英)',
+'given',
+'gone',
+'grown',
+'hung',
+'had',
+'heard',
+'hidden',
+'hit',
+'held',
+'hurt',
+'kept',
+'known',
+'laid',
+'led',
+'left',
+'lent',
+'let',
+'lain',
+'lit',
+'lost',
+'made',
+'meant',
+'met',
+'paid',
+'put',
+'quit',
+'read',
+'ridden',
+'rung',
+'risen',
+'run',
+'said',
+'seen',
+'sold',
+'sent',
+'set',
+'shaken',
+'shot',
+'shut',
+'sung',
+'sat',
+'slept',
+'slid',
+'spoken',
+'spent',
+'spread',
+'stood',
+'stolen',
+'stuck',
+'struck',
+'sworn',
+'swept',
+'swum',
+'taken',
+'taught',
+'torn',
+'told',
+'thrown',
+'thought',
+'understood',
+'upset',
+'woken',
+'worn',
+'won',
+'withdrawn',
+'written'];
+var irragular4 = ['在,是',
+'變成',
+'始',
+'彎曲',
+'咬',
+'吹',
+'裂',
+'帶來',
+'傳播',
+'建',
+'買',
+'及,趕',
+'選',
+'來',
+'耗費',
+'切,割(完整面)',
+'挖',
+'做',
+'畫,塗',
+'喝,飲',
+'駛,驅',
+'吃',
+'落',
+'餵',
+'覺',
+'爭',
+'發現',
+'合',
+'飛',
+'忘記',
+'原諒',
+'凍',
+'得到,變成',
+'給,予',
+'去',
+'長',
+'吊,絞',
+'有',
+'聽',
+'藏',
+'碰',
+'把,持',
+'傷害',
+'保持',
+'知,識',
+'放下,鋪上',
+'引導',
+'離,留',
+'借',
+'讓',
+'躺,呈現',
+'點,照',
+'失,迷',
+'使,造',
+'意',
+'遇',
+'付',
+'置',
+'戒,止',
+'閱讀',
+'騎',
+'響',
+'升',
+'跑,營',
+'說,述',
+'見',
+'賣',
+'送',
+'設',
+'撼,抖',
+'射',
+'關,閉',
+'唱,吟',
+'坐',
+'睡',
+'滑',
+'講,談',
+'花,用',
+'播,散',
+'站,支持',
+'偷',
+'貼,挺',
+'擊',
+'宣,發(誓)',
+'掃,抹',
+'游',
+'拿,取',
+'教',
+'撕,扯 ',
+'辨,訴',
+'扔,拋',
+'認為,想',
+'理解',
+'煩,擾',
+'醒',
+'穿',
+'贏',
+'提,抽',
+'寫'];
+var gameId ;
+var minNum = 0;
+var maxNum = irragular1.length-1;
+function start() {
+	game();
+	gameId = setInterval(game, parseFloat($('#gap').val()) * 1000);
+	$('#_start').hide();
+	$('#gap').prop('readonly', true);
+	$('#_stop').show();
+	$('#_manual').hide();
+}
+function stop() {
+	clearInterval(gameId);
+	$('#_stop').hide();
+	$('#gap').prop('readonly', false);
+	$('#_start').show();
+	$('#_manual').show();
+}
+var game = function() {
+	var n = Math.floor(Math.random() * (maxNum - minNum + 1)) + minNum;
+	var j = 0 ;
+	if ($('#mix').prop('checked') == true ) {
+		j = (Math.floor(Math.random() * 9999) + 1) % 3;
+	}
+	$('#ans').html();
+	switch(j){
+		case 1:
+  		$('#qus').html(irragular2[n]);
+  		break;
+		case 2:
+  		$('#qus').html(irragular3[n]);
+  		break;
+		default:
+  		$('#qus').html(irragular1[n]);
+	}
+	if ($('#showans').prop('checked') == true) {
+		setTimeout(function() {
+			$('#ans').html(irragular1[n]+" "+irragular2[n]+" "+irragular3[n]+" "+irragular4[n]);
+		},parseFloat($('#gap').val()) * 1000 * 0.8);
+	}
+}
+$(function () {
+   // your code goes here
+   $('#_stop').hide();
+   //$('#_manual').hide();
+});
+</script>

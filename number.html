@@ -1,0 +1,69 @@
+<html>
+<head>
+<script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+<meta charset="UTF-8">
+<meta name="author" content="David">
+<title>數字反射練習</title>
+<style>
+.myButton {
+	background-color:#44c767;
+	-moz-border-radius:5px;
+	-webkit-border-radius:5px;
+	border-radius:5px;
+	border:1px solid #18ab29;
+	display:inline-block;
+	cursor:pointer;
+	color:#ffffff;
+	font-family:Arial;
+	font-size:18px;
+	padding:13px 40px;
+	text-decoration:none;
+	text-shadow:0px 1px 0px #2f6627;
+}
+.myButton:hover {
+	background-color:#5cbf2a;
+}
+.myButton:active {
+	position:relative;
+	top:1px;
+}
+</style>
+</head>
+	<body>
+	<div style="font-size: 3.0em;">
+	<span style="background-color: #D7C55A; width:120px;display: inline-block; height:80px">
+        <span id="qus"></span>
+    </span>
+    	<BR><BR>
+	切換時間<input type="text" value="1" id="gap" size="5">秒<BR>
+	<a href="javascript:start()" class="myButton" id='_start'>自動</a>
+	<a href="javascript:stop()" class="myButton" id='_stop'>暫停</a>
+	<a href="javascript:game()" class="myButton" id='_manual'>下一題</a>
+	</div>
+<script>
+    var gameId ;
+function game() {
+    var n = Math.floor(Math.random() * 101);
+    $('#qus').html(n);
+}
+function start() {
+	game();
+	gameId = setInterval(game, parseFloat($('#gap').val()) * 1000);
+	$('#_start').hide();
+	$('#gap').prop('readonly', true);
+	$('#_stop').show();
+	$('#_manual').hide();
+}
+function stop() {
+	clearInterval(gameId);
+	$('#_stop').hide();
+	$('#gap').prop('readonly', false);
+	$('#_start').show();
+	$('#_manual').show();
+}
+$(function () {
+   $('#_stop').hide();
+});
+        </script>
+	</body>
+	</html>
